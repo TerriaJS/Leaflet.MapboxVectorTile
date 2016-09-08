@@ -118,6 +118,7 @@ module.exports = L.TileLayer.MVTSource = L.TileLayer.Canvas.extend({
     };
 
     map.on('click', mapOnClickCallback);
+    map.on('mouseover', mapOnClickCallback);
 
     map.on("layerremove", function(e) {
       // check to see if the layer removed is this one
