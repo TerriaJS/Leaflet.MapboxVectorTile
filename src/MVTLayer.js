@@ -356,8 +356,8 @@ module.exports = L.TileLayer.Canvas.extend({
       if (minDistance == 0) break;
     }
 
-    if (nearest && nearest.toggleEnabled) {
-        nearest.toggle();
+    if (nearest && !nearest.selected) {
+        nearest.select();
     }
     evt.feature = nearest;
     cb(evt);
