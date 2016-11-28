@@ -126,6 +126,7 @@ module.exports = L.TileLayer.MVTSource = L.TileLayer.Canvas.extend({
       if (e.layer._leaflet_id === self._leaflet_id && e.layer.removeChildLayers) {
         e.layer.removeChildLayers(map);
         map.off('click', mapOnClickCallback);
+        map.off('mousemove', mapOnClickCallback);
       }
     });
 
