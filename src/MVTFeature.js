@@ -146,7 +146,7 @@ MVTFeature.prototype.draw = function(canvasID) {
       break;
 
     case 3: //Polygon
-      this._drawPolygon(ctx, vtf.coordinates, style);
+      this._drawPolygon(ctx, vtf.coordinates, vtf.extent / ctx.tileSize, style);
       break;
 
     default:
@@ -316,7 +316,7 @@ MVTFeature.prototype._drawLineString = function(ctx, coordsArray, style) {
   tile.paths.push(projCoords);
 };
 
-MVTFeature.prototype._drawPolygon = function(ctx, coordsArray, style) {
+MVTFeature.prototype._drawPolygon = function(ctx, coordsArray, divisor, style) {
   if (!style) return;
   if (!ctx || !ctx.canvas) return;
 
@@ -350,7 +350,7 @@ MVTFeature.prototype._drawPolygon = function(ctx, coordsArray, style) {
     for (var i = 0; i < coords.length; i++) {
       var coord = coords[i];
       var method = (i === 0 ? 'move' : 'line') + 'To';
-      var proj = this._tilePoint(coords[i]);
+      var proj = this._tilePoint(coords[i], divisor);
       projCoords.push(proj);
       ctx2d[method](proj.x, proj.y);
     }
@@ -417,8 +417,9 @@ MVTFeature.prototype._project = function(vecPt, tileX, tileY, extent, tileSize) 
  * @returns {eGeomType.Point}
  * @private
  */
-MVTFeature.prototype._tilePoint = function(coords) {
-  return new L.Point(coords.x / this.divisor, coords.y / this.divisor);
+MVTFeature.prototype._tilePoint = function(coords, divisor) {
+  divisor = divisor || this.divisor;
+  return new L.Point(coords.x / divisor, coords.y / divisor);
 };
 
 MVTFeature.prototype.linkedFeature = function() {
